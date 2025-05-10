@@ -3,7 +3,7 @@ Astra.__index = Astra
 
 local loaded = false
 
-local AnchorPoint = Vector2.new(0.5, 0.5)
+local AnchorPoint = Vector2.new(.5, .5)
 local UiGradient = Instance.new("UIGradient")
 UiGradient.Rotation = -90
 UiGradient.Color = ColorSequence.new{
@@ -51,7 +51,7 @@ function Astra:applyGradient(frame)
     gradient.Parent = frame
 end
 
-function Astra:CreateWindow()
+function Astra:CreateWindow(config)
     local player = game.Players.LocalPlayer
 
     if not loaded then
@@ -59,10 +59,11 @@ function Astra:CreateWindow()
         return
     end
 
-    -- Configuration values
-    local Configuration = {
+    -- Use configuration values provided in the table
+    local Configuration = config or {
         Title = "Astra Hub",
-        Creator = "CreatorName"
+        Creator = "CreatorName",
+        Theme = "Default",
     }
 
     -- Create the main UI window with dark theme and rounded corners
@@ -73,13 +74,12 @@ function Astra:CreateWindow()
     local MainFrame = Instance.new("Frame", MainGui)
     MainFrame.Name = "AstraFrame"
     MainFrame.AnchorPoint = AnchorPoint
-    MainFrame.Size = UDim2.new(0.4, 0, 0.7, 0)
+    MainFrame.Size = UDim2.new(.4, 0, .7, 0)
     MainFrame.Position = UDim2.new(0.5, 0, 0.5, 0)
     MainFrame.BackgroundColor3 = Color3.fromRGB(40, 40, 60)
     MainFrame.BorderSizePixel = 0
     MainFrame.BackgroundTransparency = 0
     MainFrame.ClipsDescendants = true
-    MainFrame.BorderRadius = UDim.new(0, 15)  -- Rounded corners
     self:applyGradient(MainFrame)
 
     -- Title/Header section
@@ -100,29 +100,19 @@ function Astra:CreateWindow()
     Title.TextScaled = true
     Title.Font = Enum.Font.GothamBold
 
-    -- Button Example (can be expanded with more buttons or features)
-    local Button = Instance.new("TextButton", MainFrame)
-    Button.Name = "Button"
-    Button.Size = UDim2.new(0.8, 0, 0.1, 0)
-    Button.Position = UDim2.new(0.5, -Button.Size.X.Offset / 2, 0.25, 0)
-    Button.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-    Button.Text = "Click Me"
-    Button.TextColor3 = Color3.fromRGB(0, 0, 0)
-    Button.TextScaled = true
-    Button.Font = Enum.Font.GothamBold
-    Button.BorderSizePixel = 0
-
-    -- Action for button
-    Button.MouseButton1Click:Connect(function()
-        print("Button clicked!")
-        -- Add functionality here, e.g., open another window, close the UI, etc.
-    end)
+    -- Add more UI elements like buttons here if needed
 
     print("Loaded Astra.")
 end
 
--- Create and load Astra
+-- Initialize and use the configuration for window creation
 local myAstra = setmetatable({}, Astra)
 
 myAstra:loadAstra()
-myAstra:CreateWindow()
+
+-- Example window creation using custom config
+myAstra:CreateWindow({
+    Name = "Custom Astra Hub",
+    Creator = "CustomCreator",
+    Theme = "Dark"
+})
