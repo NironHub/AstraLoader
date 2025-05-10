@@ -1,0 +1,128 @@
+local Astra = {}
+Astra.__index = Astra
+
+local loaded = false
+
+local AnchorPoint = Vector2.new(0.5, 0.5)
+local UiGradient = Instance.new("UIGradient")
+UiGradient.Rotation = -90
+UiGradient.Color = ColorSequence.new{
+    ColorSequenceKeypoint.new(0, Color3.fromRGB(30, 30, 50)),
+    ColorSequenceKeypoint.new(1, Color3.fromRGB(50, 50, 80))
+}
+
+function Astra:loadAstra()
+    print("Astra Loading...")
+
+    -- Create the UI components immediately
+    local player = game.Players.LocalPlayer
+    local MainGui = Instance.new("ScreenGui", player.PlayerGui)
+    MainGui.Name = "AstraGui"
+    MainGui.ResetOnSpawn = false
+
+    -- Create Loading Screen (immediate)
+    local LoadingFrame = Instance.new("Frame", MainGui)
+    LoadingFrame.Name = "LoadingFrame"
+    LoadingFrame.AnchorPoint = AnchorPoint
+    LoadingFrame.Size = UDim2.new(0, 300, 0, 50)
+    LoadingFrame.Position = UDim2.new(0.5, -150, 0.5, -25)
+    LoadingFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 50)
+    LoadingFrame.BorderSizePixel = 0
+    self:applyGradient(LoadingFrame)
+
+    local LoadingLabel = Instance.new("TextLabel", LoadingFrame)
+    LoadingLabel.Name = "LoadingLabel"
+    LoadingLabel.Size = UDim2.new(1, 0, 1, 0)
+    LoadingLabel.BackgroundTransparency = 1
+    LoadingLabel.Text = "Loading Astra..."
+    LoadingLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+    LoadingLabel.TextScaled = true
+    LoadingLabel.Font = Enum.Font.GothamBold
+
+    -- Immediately remove the loading screen after the UI is created
+    LoadingFrame:Destroy()
+
+    print("Astra Successfully Loaded.")
+    loaded = true
+end
+
+function Astra:applyGradient(frame)
+    local gradient = UiGradient:Clone()
+    gradient.Parent = frame
+end
+
+function Astra:CreateWindow()
+    local player = game.Players.LocalPlayer
+
+    if not loaded then
+        print("Astra is not loaded yet.")
+        return
+    end
+
+    -- Configuration values
+    local Configuration = {
+        Title = "Astra Hub",
+        Creator = "CreatorName"
+    }
+
+    -- Create the main UI window with dark theme and rounded corners
+    local MainGui = Instance.new("ScreenGui", player.PlayerGui)
+    MainGui.Name = "AstraGui"
+    MainGui.ResetOnSpawn = false
+
+    local MainFrame = Instance.new("Frame", MainGui)
+    MainFrame.Name = "AstraFrame"
+    MainFrame.AnchorPoint = AnchorPoint
+    MainFrame.Size = UDim2.new(0.4, 0, 0.7, 0)
+    MainFrame.Position = UDim2.new(0.5, 0, 0.5, 0)
+    MainFrame.BackgroundColor3 = Color3.fromRGB(40, 40, 60)
+    MainFrame.BorderSizePixel = 0
+    MainFrame.BackgroundTransparency = 0
+    MainFrame.ClipsDescendants = true
+    MainFrame.BorderRadius = UDim.new(0, 15)  -- Rounded corners
+    self:applyGradient(MainFrame)
+
+    -- Title/Header section
+    local TitleBar = Instance.new("Frame", MainFrame)
+    TitleBar.Name = "TitleBar"
+    TitleBar.Size = UDim2.new(1, 0, 0.1, 0)
+    TitleBar.BackgroundColor3 = Color3.fromRGB(50, 50, 80)
+    TitleBar.BorderSizePixel = 0
+
+    local Title = Instance.new("TextLabel", TitleBar)
+    Title.Name = "Title"
+    Title.AnchorPoint = AnchorPoint
+    Title.Size = UDim2.new(1, 0, 1, 0)
+    Title.Position = UDim2.new(0.5, 0, 0.5, 0)
+    Title.BackgroundTransparency = 1
+    Title.Text = Configuration.Title
+    Title.TextColor3 = Color3.fromRGB(255, 255, 255)
+    Title.TextScaled = true
+    Title.Font = Enum.Font.GothamBold
+
+    -- Button Example (can be expanded with more buttons or features)
+    local Button = Instance.new("TextButton", MainFrame)
+    Button.Name = "Button"
+    Button.Size = UDim2.new(0.8, 0, 0.1, 0)
+    Button.Position = UDim2.new(0.5, -Button.Size.X.Offset / 2, 0.25, 0)
+    Button.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    Button.Text = "Click Me"
+    Button.TextColor3 = Color3.fromRGB(0, 0, 0)
+    Button.TextScaled = true
+    Button.Font = Enum.Font.GothamBold
+    Button.BorderSizePixel = 0
+
+    -- Action for button
+    Button.MouseButton1Click:Connect(function()
+        print("Button clicked!")
+        -- Add functionality here, e.g., open another window, close the UI, etc.
+    end)
+
+    print("Loaded Astra.")
+end
+
+-- Create and load Astra
+local myAstra = setmetatable({}, Astra)
+
+myAstra:loadAstra()
+myAstra:CreateWindow()
