@@ -109,10 +109,3 @@ end
 local myAstra = setmetatable({}, Astra)
 
 myAstra:loadAstra()
-
--- Example window creation using custom config
-myAstra:CreateWindow({
-    Name = "Custom Astra Hub",
-    Creator = "CustomCreator",
-    Theme = "Dark"
-})
